@@ -13,11 +13,16 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Missing required parameters: calendarId, startDate, endDate' });
   }
 
-  // GHL API v2 token - stored securely in Vercel environment variables
+  // GHL API v2 token and location ID - stored securely in Vercel environment variables
   const API_TOKEN = process.env.GHL_API_TOKEN;
+  const LOCATION_ID = process.env.GHL_LOCATION_ID;
 
   if (!API_TOKEN) {
     return res.status(500).json({ error: 'API token not configured' });
+  }
+
+  if (!LOCATION_ID) {
+    return res.status(500).json({ error: 'Location ID not configured' });
   }
 
   try {
@@ -35,7 +40,8 @@ export default async function handler(req, res) {
       headers: {
         'Authorization': `Bearer ${API_TOKEN}`,
         'Content-Type': 'application/json',
-        'Version': '2021-07-28'
+        'Version': '2021-07-28',
+        'Location': LOCATION_ID
       }
     });
 

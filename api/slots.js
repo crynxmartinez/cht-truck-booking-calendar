@@ -26,26 +26,16 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Convert milliseconds to ISO date strings for API v2
-    // Format: YYYY-MM-DD (not full ISO with time)
-    const startDateObj = new Date(parseInt(startDate));
-    const endDateObj = new Date(parseInt(endDate));
-    
-    const formatDate = (d) => {
-      const year = d.getFullYear();
-      const month = String(d.getMonth() + 1).padStart(2, '0');
-      const day = String(d.getDate()).padStart(2, '0');
-      return `${year}-${month}-${day}`;
-    };
-    
-    const startDateFormatted = formatDate(startDateObj);
-    const endDateFormatted = formatDate(endDateObj);
+    // GHL API v2 expects milliseconds as numbers
+    const startMs = parseInt(startDate);
+    const endMs = parseInt(endDate);
     
     // GHL API v2 endpoint for calendar slots
-    const url = `https://services.leadconnectorhq.com/calendars/${calendarId}/free-slots?startDate=${startDateFormatted}&endDate=${endDateFormatted}`;
+    const url = `https://services.leadconnectorhq.com/calendars/${calendarId}/free-slots?startDate=${startMs}&endDate=${endMs}`;
     
     console.log('Fetching from:', url);
     console.log('Using token:', API_TOKEN.substring(0, 20) + '...');
+    console.log('Location ID:', LOCATION_ID);
     
     const response = await fetch(url, {
       method: 'GET',

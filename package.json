@@ -1,0 +1,8 @@
+{
+  "name": "ghl-proxy",
+  "version": "1.0.0",
+  "description": "CORS Proxy for GoHighLevel API",
+  "scripts": {
+    "dev": "vercel dev"
+  }
+}
